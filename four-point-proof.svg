@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="350" viewBox="0 0 480 350" role="img" aria-labelledby="title desc">
+  <title id="title">Four positions of an interior point</title>
+  <desc id="desc">A right triangle with legs a and b and hypotenuse c contains a small square centered at the incenter I. One diagonal follows the dashed bisector between a and c. One square vertex P is joined to the three corners of the right triangle.</desc>
+  <rect width="480" height="350" fill="#fff"/>
+  <path d="M52 308H436L52 20Z" fill="#faf7f1"/>
+  <path d="M52 308L164 164L436 308Z" fill="#f3e5bd"/>
+  <path d="M52 20L164 164L52 308Z" fill="#e0eeeb"/>
+  <path d="M52 20L164 164L436 308Z" fill="#f2ebe4"/>
+  <g fill="none" stroke-linejoin="round">
+    <path d="M52 20L164 164L436 308M164 164L52 308" stroke="#948677" stroke-width="1.6"/>
+    <path d="M52 308H436L52 20Z" stroke="#2c3439" stroke-width="2.5"/>
+    <path d="M52 295H65V308" stroke="#2c3439" stroke-width="1.3"/>
+    <path d="M52 180L436 308" stroke="#855d3a" stroke-dasharray="5 4" stroke-width="1.4"/>
+    <path d="M196 228L132 260L100 196L164 164Z" stroke="#17665f" stroke-width="2.5"/>
+  </g>
+  <g fill="#17665f">
+    <circle cx="196" cy="228" r="3.8"/><circle cx="132" cy="260" r="3.8"/>
+    <circle cx="100" cy="196" r="3.8"/><circle cx="164" cy="164" r="4.6"/>
+  </g>
+  <circle cx="148" cy="212" r="3.1" fill="#2c3439"/>
+  <g font-family="Georgia, serif" font-size="21" font-style="italic" fill="#2c3439">
+    <text x="238" y="332">a</text><text x="29" y="169">b</text><text x="250" y="151">c</text>
+    <text x="135" y="230">I</text><text x="168" y="155" fill="#17665f">P</text>
+  </g>
+</svg>
