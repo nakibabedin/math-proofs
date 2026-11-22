@@ -43,7 +43,7 @@ Dividing by $K$ proves $a^2+b^2=c^2$. #h(0.25em) $square.stroked.small$
 
 = How the Lean proof measures length
 
-The geometric proof is complete on the first page. The Lean file constructs the required reflection in coordinates before measuring the hypotenuse.
+The geometric proof is complete on the first page. The Lean file does not formalize it. It has no areas, distances to lines, or square. It checks the coordinate computation on this page.
 
 == The ruler and its mirror
 
@@ -55,7 +55,7 @@ For this calculation, take the acute vertex where $a$ meets $c$ as the origin, w
 To read $L(a,b)$, fold $(a,b)$ onto a ruler marking $(c,0)$. If the mirror is the line $Y=t X$, a direction along it is $(1,t)$ and a perpendicular direction is $(-t,1)$ by a quarter-turn. The segment joining the two points must be perpendicular to the mirror, and its midpoint must lie on the mirror. These conditions give, respectively,
 $ a-c=-t b, quad b=t(a+c). $
 
-Substituting $c=a+b t$ into the second condition gives $f(t)=b t^2+2a t-b=0$. Since $f(0)=-b<0$ and $f(1)=2a>0$, there is a root between 0 and 1. For that root, $c=a+b t>0$ and both mirror conditions hold. The ruler therefore reads $L(a,b)=c$. The Lean file proves the required root exists from the least-upper-bound property of the scalar field.
+Substituting $c=a+b t$ into the second condition gives $f(t)=b t^2+2a t-b=0$. Since $f(0)=-b<0$ and $f(1)=2a>0$, there is a root between 0 and 1. For that root, $c=a+b t>0$ and both mirror conditions hold. The ruler therefore reads $L(a,b)=c$. The Lean file proves the required root exists from the least-upper-bound property of the scalar field. Property 2 builds in the usual distance, since these reflections preserve $X^2+Y^2$.
 
 == The four readings in coordinates
 
@@ -70,6 +70,6 @@ Use $(1,t)$ for a displacement along the square’s diagonal. A sufficiently sma
   [$Z$], [$t$], [$-1$], [$-t$], [$1$],
   table.hline(stroke: 0.6pt + rgb("#829993")))]
 
-The area equation is $b X-a Y=c Z$. For corners 1 and 2 it reads $b-a t=c t$ and $-b t-a=-c$, exactly the two mirror conditions above. The opposite corners reverse all signs. Lean squares and sums these four equations, cancels the mixed term, and divides by the positive common sum as on page one.
+Page one’s area equation becomes $b X-a Y=c Z$. For corners 1 and 2 it reads $b-a t=c t$ and $-b t-a=-c$, exactly the two mirror conditions above. Lean derives them from the mirror, not from areas. The opposite corners reverse all signs. Lean squares and sums the four equations, cancels the mixed term, and divides by the positive common sum as on page one.
 
 #text(size: 10pt)[*Formal statement.* In #raw("FourPoint.lean"), #raw("FourPoint.pythagoras_lengths") proves $L(a,0)^2+L(0,b)^2=L(a,b)^2$ for all $a,b>0$ over a complete ordered field with the stated ruler and reflection properties. Run #raw("lean FourPoint.lean") with Lean 4.35.0.]

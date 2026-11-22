@@ -1,11 +1,18 @@
 import Std
 
 /-!
-A four-point proof of Pythagoras. Check with Lean 4.35.0:
+A coordinate companion to the four-point proof of Pythagoras. Check with Lean 4.35.0:
     lean FourPoint.lean
 
-The scalar field is an arbitrary complete ordered field. Segment length is measured on a
-ruler and is invariant under reflection. No coordinate distance formula is used.
+This file does not formalize the area argument on page 1 of the paper. It has no areas,
+no distances to lines, and no square. It checks the coordinate computation on page 2.
+
+The scalar field is an arbitrary complete ordered field. Segment length is an abstract
+function, calibrated on a ruler and unchanged by reflection in lines through the origin.
+No distance formula is assumed, but one is implied. Mirror images are defined with
+(-t, 1) perpendicular to (1, t), so the reflections are the Euclidean ones. They preserve
+x^2 + y^2, and any length with these two properties is the Euclidean length. The
+Pythagorean content of the theorem enters through this hypothesis.
 -/
 
 namespace FourPoint
@@ -18,7 +25,9 @@ variable {R : Type u} [Field R] [LE R] [LT R] [LawfulOrderLT R]
 /-- Ruler calibration and equality of lengths of mirror images.
 For the mirror line y = t * x, the first equation puts the segment joining the
 two points perpendicular to the mirror; the second puts its midpoint on it.
-Perpendicular direction to (1,t) is defined by quarter-turn as (-t,1). -/
+Perpendicular direction to (1,t) is defined by quarter-turn as (-t,1).
+This is the dot-product notion of perpendicularity, so `reflect` describes
+Euclidean reflections. -/
 structure RulerLength (R : Type u) [Field R] [LE R] where
   length : R → R → R
   on_ruler : ∀ r, 0 ≤ r → length r 0 = r
@@ -65,7 +74,9 @@ private theorem zeroOnUnitInterval (complete : HasSuprema R) (f : R → R)
       grind
   exact ⟨s, by grind, by grind, root⟩
 
-/-- The slope t of the bisector is found without taking a square root. -/
+/-- The slope t of the bisector. Since c = a + b * t, finding t is equivalent to
+finding c > 0 with c^2 = a^2 + b^2, so this is where completeness supplies that
+square root. -/
 private theorem bisectorSlope (complete : HasSuprema R) (a b : R)
     (ha : 0 < a) (hb : 0 < b) :
     ∃ t, 0 < t ∧ t < 1 ∧ b * t^2 + 2 * a * t - b = 0 := by
@@ -79,16 +90,21 @@ private theorem bisectorSlope (complete : HasSuprema R) (a b : R)
     have product := OrderedRing.mul_le_mul_of_nonneg_right factor (show 0 ≤ y - x by grind)
     dsimp [f]; grind
 
-/-- The four signed-height readings. The first two coordinates are horizontal
+/-- The four signed-height readings from the table on page 2 of the paper.
+The first two coordinates are horizontal
 and vertical displacements. The last is vertical displacement after reflecting
 the corner in the diagonal (1,t). Reflection fixes the first and third corners,
 and interchanges the second and fourth. -/
 private def sumCorners (t : R) (f : R → R → R → R) : R :=
   f 1 t t + f (-t) 1 (-1) + f (-1) (-t) (-t) + f t (-1) 1
 
-/-- Coordinate form of the paper's four-area argument. For the two neighboring
-corners, conservation of area reads c * t = b - a * t and -c = -b * t - a.
-The opposite corners reverse all three signed readings. -/
+/-- The algebra of the paper's four-corner argument, in coordinates.
+The hypotheses are the two mirror conditions. They agree with the page-1 area
+equation b * X - a * Y = c * Z at the two neighboring corners, but that area
+equation is not derived here. The opposite corners reverse all three readings.
+The hypotheses alone already give the result, since
+c^2 - a^2 - b^2 = (c + a) * (c - a - b * t) + b * (t * (a + c) - b).
+The proof below instead squares and sums the four corner equations as on page 1. -/
 theorem four_area_identity (a b c t : R)
     (first : b - a * t = c * t) (second : -b * t - a = -c) :
     a^2 + b^2 = c^2 := by
@@ -134,7 +150,7 @@ theorem four_area_identity (a b c t : R)
 
 /-- All right triangles, placed with vertices (0,0), (a,0), (a,b).
 The "length" on the right is the primitive length of the displacement (a,b).
-The mirror construction gives both area equations. -/
+The mirror construction gives the two equations that `four_area_identity` needs. -/
 theorem pythagoras (complete : HasSuprema R) (ruler : RulerLength R)
     (a b : R) (ha : 0 < a) (hb : 0 < b) :
     a^2 + b^2 = (ruler.length a b)^2 := by
